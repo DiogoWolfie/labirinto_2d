@@ -1,6 +1,6 @@
 using UnityEngine;
-using TMPro; // Certifique-se de usar isso para acessar o TextMeshProUGUI
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerControlller : MonoBehaviour
 {
@@ -8,12 +8,15 @@ public class PlayerControlller : MonoBehaviour
     public Rigidbody2D rb;
     private Vector2 movement;
     public Animator animator;
-    public TextMeshProUGUI chaveText; // Referência ao texto do UI
-    private bool hasKey = false; // Variável para verificar se o player pegou a chave
+    public TextMeshProUGUI chaveText;
+    private bool hasKey = false;
+
+    private float targetX = 75.49525f;
+
 
     void Start()
     {
-        UpdateKeyText(); // Atualiza o texto no início do jogo
+        UpdateKeyText();
     }
 
     void Update()
@@ -24,6 +27,12 @@ public class PlayerControlller : MonoBehaviour
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
+
+
+        if (hasKey && rb.position.x > targetX)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
     void FixedUpdate()
@@ -36,8 +45,8 @@ public class PlayerControlller : MonoBehaviour
         if (collision.gameObject.CompareTag("chaves") && !hasKey)
         {
             hasKey = true;
-            UpdateKeyText(); // Atualiza o texto para 1/1
-            Destroy(collision.gameObject); // Destroi a chave após a coleta
+            UpdateKeyText();
+            Destroy(collision.gameObject);
         }
     }
 
@@ -46,7 +55,6 @@ public class PlayerControlller : MonoBehaviour
         if (hasKey)
         {
             chaveText.text = "Chave 1/1";
-            SceneManager.LoadSceneAsync(2); //temporário
         }
         else
         {
