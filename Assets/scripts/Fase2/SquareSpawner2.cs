@@ -3,8 +3,16 @@ using UnityEngine;
 public class SquareSpawner : MonoBehaviour
 {
     public GameObject keyObject; // O prefab da chave
-    public Vector2 rectSize = new Vector2(150, 60); // Tamanho do retângulo do labirinto
-    public Vector2 rectPosition = new Vector2(0, 0); // Posição central do retângulo do labirinto
+
+    // Posições pré-definidas onde a chave pode aparecer dentro do chão
+    private Vector2[] possiblePositions = new Vector2[]
+    {
+        new Vector2(60, 8),  // Posição 1
+        new Vector2(80, -8),  // Posição 2
+        new Vector2(-20, 12),  // Posição 3
+        new Vector2(90, -5),  // Posição 4
+        new Vector2(90, 5),  // Posição 5
+    };
 
     private bool keySpawned = false; // Variável para controlar se a chave já foi gerada
 
@@ -17,34 +25,12 @@ public class SquareSpawner : MonoBehaviour
     {
         if (keySpawned) return; // Se a chave já foi gerada, interrompe a execução
 
-        // Tenta gerar a chave em até 100 tentativas
-        for (int attempts = 0; attempts < 100; attempts++)
-        {
-            // Gera uma posição aleatória dentro do retângulo
-            Vector2 randomPosition = new Vector2(
-                Random.Range(rectPosition.x - rectSize.x / 2, rectPosition.x + rectSize.x / 2),
-                Random.Range(rectPosition.y - rectSize.y / 2, rectPosition.y + rectSize.y / 2)
-            );
+        // Sorteia uma posição entre as pré-definidas
+        Vector2 selectedPosition = possiblePositions[Random.Range(0, possiblePositions.Length)];
 
-            // Verifica se a posição está livre de paredes
-            if (!IsPositionBlocked(randomPosition))
-            {
-                // Posiciona a chave na posição gerada
-                keyObject.transform.position = new Vector3(randomPosition.x, randomPosition.y, 0f);
-                keySpawned = true; // Define que a chave foi gerada
-                Debug.Log($"Chave gerada na posição: {randomPosition}");
-                return; // Sai do método assim que a chave é gerada
-            }
-        }
-
-        // Se falhar ao gerar uma chave, exibe uma mensagem
-        Debug.Log("Falha ao gerar a chave: Nenhuma posição válida encontrada.");
-    }
-
-    bool IsPositionBlocked(Vector2 position)
-    {
-        // Checa se há colisão com a tag "Wall" na posição desejada
-        Collider2D hitCollider = Physics2D.OverlapCircle(position, 0.5f); // Ajuste o raio conforme o tamanho da chave
-        return hitCollider != null && hitCollider.CompareTag("Wall");
+        // Posiciona a chave na posição selecionada
+        keyObject.transform.position = new Vector3(selectedPosition.x, selectedPosition.y, 0f);
+        keySpawned = true; // Define que a chave foi gerada
+        Debug.Log($"Chave gerada na posição: {selectedPosition}");
     }
 }
