@@ -8,6 +8,8 @@ TagManager:
   - chave1
   - door1
   - enemy
+  - chaves
+  - porta2
   layers:
   - Default
   - TransparentFX

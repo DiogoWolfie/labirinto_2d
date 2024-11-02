@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+
 public class PlayerControlller : MonoBehaviour
 {
     public float moveSpeed = 5f;
@@ -13,6 +14,7 @@ public class PlayerControlller : MonoBehaviour
 
     private float targetX = 75.49525f;
 
+    
 
     void Start()
     {
@@ -47,8 +49,17 @@ public class PlayerControlller : MonoBehaviour
             hasKey = true;
             UpdateKeyText();
             Destroy(collision.gameObject);
+     
         }
+
+        if (collision.gameObject.CompareTag("porta2") && hasKey)
+        {
+            SceneManager.LoadSceneAsync(2); // Carrega a cena nova
+
+        }
+
     }
+
 
     void UpdateKeyText()
     {
