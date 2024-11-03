@@ -88,13 +88,13 @@ public class PlayerController : MonoBehaviour
         isTransitioning = true;
         portaAudio.Play();
         yield return new WaitForSeconds(portaAudio.clip.length);
-        SceneManager.LoadSceneAsync(3);
+        SceneManager.LoadSceneAsync(4);
     }
 
     IEnumerator LoadNextScene()
     {
         isTransitioning = true;
-        SceneManager.LoadSceneAsync(3);
+        SceneManager.LoadSceneAsync(4);
         yield return null;
     }
 
@@ -117,6 +117,6 @@ public class PlayerController : MonoBehaviour
 
     void GameOver()
     {
-        SceneManager.LoadScene(5); // Carrega a cena de game over
+        SceneManager.LoadScene(6); // Carrega a cena de game over
     }
 }

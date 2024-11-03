@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using TMPro;
+using System.Diagnostics;
 
 public class player_controller : MonoBehaviour
 {
@@ -13,10 +14,8 @@ public class player_controller : MonoBehaviour
     public Animator animator;
     public Animator anime_attack;
 
-    // Collider para a �rea de ataque
     public Collider2D attackCollider;
 
-    // Condi��es da vela e chave
     private bool findCandle;
     private bool findKey;
 
@@ -34,7 +33,12 @@ public class player_controller : MonoBehaviour
 
     public GameObject audio_coletavel;
     public GameObject enemy_destroy;
-     public GameObject audio_ataque;
+    public GameObject audio_ataque;
+
+    public GameObject popup;
+
+    private bool isPopupActive = false;
+    private float popupTimer = 4f; // Define o tempo para o popup desaparecer
 
     void Start()
     {
@@ -43,15 +47,15 @@ public class player_controller : MonoBehaviour
         key = 0;
         candle = 0;
         time = 200;
-        //attackCollider.enabled = false;  // Collider desativado no in�cio
 
-        // Salva o �ndice da fase atual no PlayerPrefs
+        ShowPopup();
+        //popup.SetActive(false); 
+
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
-        PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
+        PlayerPrefs.Save();
     }
 
-    // Update is called once per frame
     void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -75,18 +79,16 @@ public class player_controller : MonoBehaviour
             SceneManager.LoadSceneAsync(6);
         }
 
-        // Verificar se o jogador atacou (tecla Enter ou bot�o esquerdo do mouse)
-        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) // 0 � o bot�o esquerdo do mouse
-        //{
-        //    anime_attack.SetTrigger("attack"); // Ativa o Trigger "Attack" no Animator
-        //    attackCollider.enabled = true; // Ativa o Collider durante o ataque
-        //    GameObject prefab = Instantiate(audio_ataque, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
-       //     Destroy(prefab.gameObject, 1f);
-       // }
-       // else
-       // {
-        //    attackCollider.enabled = false; // Desativa o Collider quando o ataque terminar
-       // }
+        if (isPopupActive)
+        {
+            popupTimer -= Time.deltaTime;
+            if (popupTimer <= 0f)
+            {
+                popup.SetActive(false); // Oculta o popup após o tempo
+                isPopupActive = false;  // Reseta a condição
+                
+            }
+        }
     }
 
     void FixedUpdate()
@@ -103,10 +105,9 @@ public class player_controller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Coleta a vela
         if (other.gameObject.CompareTag("vela"))
         {
-            GameObject prefab = Instantiate(audio_coletavel, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
+            GameObject prefab = Instantiate(audio_coletavel, transform.position, Quaternion.identity);
             Destroy(prefab.gameObject, 1f);
 
             other.gameObject.SetActive(false);
@@ -114,10 +115,9 @@ public class player_controller : MonoBehaviour
             candle++;
         }
 
-        // Coleta a chave
         if (other.gameObject.CompareTag("chave1"))
         {
-            GameObject prefab = Instantiate(audio_coletavel, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
+            GameObject prefab = Instantiate(audio_coletavel, transform.position, Quaternion.identity);
             Destroy(prefab.gameObject, 1f);
 
             other.gameObject.SetActive(false);
@@ -125,47 +125,32 @@ public class player_controller : MonoBehaviour
             key++;
         }
 
-        // Verifica se a porta pode ser destrancada (condi��o completa)
         if (other.gameObject.CompareTag("door1") && findKey && findCandle)
-        {
-            SceneManager.LoadSceneAsync(2); // Carrega a cena nova
+        { 
+            SceneManager.LoadSceneAsync(3);
         }
+    }
+
+    private void ShowPopup()
+    {
+        popup.SetActive(true);  // Mostra o popup
+        isPopupActive = true;   // Define a flag como ativa
+        popupTimer = 4f;        // Reinicia o temporizador para 4 segundos
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("enemy"))
         {
-            //if (attackCollider.enabled) // O inimigo colide com o Collider de ataque
-            //{
-            //    GameObject prefab = Instantiate(enemy_destroy, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
-            //    Destroy(prefab.gameObject, 2f);
-            ///    time += 20;
-
-
-            //    collision.gameObject.SetActive(false);
-
-            // }
-            //else
-            //{
-                // Jogador sofre dano (perde 10 segundos)
-                time -= 5;
-               // if (time <= 0)
-               // {
-               //     time = 0;
-               //     SceneManager.LoadSceneAsync(5); // Se o tempo acabar, chama a cena de game over
-               // }
-           // }
+            time -= 5;
         }
     }
 
     void UpdateDoorInteraction()
     {
-        // Se ambas as condi��es forem satisfeitas, transforma a porta em um Trigger para permitir a intera��o
         if (findKey && findCandle)
         {
-            door1.GetComponent<TilemapCollider2D>().isTrigger = true; // Transforma a porta em um Trigger para permitir a passagem
+            door1.GetComponent<TilemapCollider2D>().isTrigger = true;
         }
     }
 }
-
