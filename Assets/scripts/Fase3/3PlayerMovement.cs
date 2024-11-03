@@ -10,11 +10,20 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public TextMeshProUGUI countKeysText;
     public TextMeshProUGUI winText;
+    public TextMeshProUGUI timerText;
     public Animator animator;
     private Vector2 movement;
     private int countKeys;
     private GameObject door;
-    
+    AudioManager3 audioManager;
+
+    private float timeRemaining = 180f; // 3 minutos em segundos
+    private bool gameLost = false;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager3>();
+    }    
 
     void Start()
     {
@@ -25,7 +34,9 @@ public class PlayerMovement : MonoBehaviour
 
         winText.gameObject.SetActive(false);
 
-        // Salva o índice da fase atual no PlayerPrefs
+        UpdateTimerText(); 
+
+        // Salva o ï¿½ndice da fase atual no PlayerPrefs
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
         PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
@@ -33,23 +44,32 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal"); 
-        movement.y = Input.GetAxisRaw("Vertical");
-
-        animator.SetFloat("Horizontal", movement.x);
-        animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.sqrMagnitude);
-    }
-
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Walls"))
+        if (!gameLost)
         {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+
+            animator.SetFloat("Horizontal", movement.x);
+            animator.SetFloat("Vertical", movement.y);
+            animator.SetFloat("Speed", movement.sqrMagnitude);
+
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+                UpdateTimerText();
+            }
+            else
+            {
+                GameOver();
+            }
+        }
+    }
+
+     void FixedUpdate()
+    {
+        if (!gameLost)
+        {
+            rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
         }
     }
 
@@ -57,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Key"))
         {
+            audioManager.playSFX();
             other.gameObject.SetActive(false);
             countKeys = countKeys + 1;
 
@@ -85,5 +106,18 @@ public class PlayerMovement : MonoBehaviour
     void WinGame()
     {
         winText.gameObject.SetActive(true);
+        gameLost = true;
+    }
+
+    void GameOver()
+    {
+        SceneManager.LoadScene(6); // Carrega a cena de game over
+    }
+
+    void UpdateTimerText()
+    {
+        int minutes = Mathf.FloorToInt(timeRemaining / 60);
+        int seconds = Mathf.FloorToInt(timeRemaining % 60);
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 }

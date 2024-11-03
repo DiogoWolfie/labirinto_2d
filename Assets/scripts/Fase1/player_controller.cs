@@ -13,10 +13,10 @@ public class player_controller : MonoBehaviour
     public Animator animator;
     public Animator anime_attack;
 
-    // Collider para a área de ataque
+    // Collider para a ï¿½rea de ataque
     public Collider2D attackCollider;
 
-    // Condições da vela e chave
+    // Condiï¿½ï¿½es da vela e chave
     private bool findCandle;
     private bool findKey;
 
@@ -43,9 +43,9 @@ public class player_controller : MonoBehaviour
         key = 0;
         candle = 0;
         time = 200;
-        //attackCollider.enabled = false;  // Collider desativado no início
+        //attackCollider.enabled = false;  // Collider desativado no inï¿½cio
 
-        // Salva o índice da fase atual no PlayerPrefs
+        // Salva o ï¿½ndice da fase atual no PlayerPrefs
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
         PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
@@ -72,11 +72,11 @@ public class player_controller : MonoBehaviour
 
         if (time <= 0)
         {
-            SceneManager.LoadSceneAsync(5);
+            SceneManager.LoadSceneAsync(6);
         }
 
-        // Verificar se o jogador atacou (tecla Enter ou botão esquerdo do mouse)
-        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) // 0 é o botão esquerdo do mouse
+        // Verificar se o jogador atacou (tecla Enter ou botï¿½o esquerdo do mouse)
+        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) // 0 ï¿½ o botï¿½o esquerdo do mouse
         //{
         //    anime_attack.SetTrigger("attack"); // Ativa o Trigger "Attack" no Animator
         //    attackCollider.enabled = true; // Ativa o Collider durante o ataque
@@ -125,7 +125,7 @@ public class player_controller : MonoBehaviour
             key++;
         }
 
-        // Verifica se a porta pode ser destrancada (condição completa)
+        // Verifica se a porta pode ser destrancada (condiï¿½ï¿½o completa)
         if (other.gameObject.CompareTag("door1") && findKey && findCandle)
         {
             SceneManager.LoadSceneAsync(2); // Carrega a cena nova
@@ -161,7 +161,7 @@ public class player_controller : MonoBehaviour
 
     void UpdateDoorInteraction()
     {
-        // Se ambas as condições forem satisfeitas, transforma a porta em um Trigger para permitir a interação
+        // Se ambas as condiï¿½ï¿½es forem satisfeitas, transforma a porta em um Trigger para permitir a interaï¿½ï¿½o
         if (findKey && findCandle)
         {
             door1.GetComponent<TilemapCollider2D>().isTrigger = true; // Transforma a porta em um Trigger para permitir a passagem
