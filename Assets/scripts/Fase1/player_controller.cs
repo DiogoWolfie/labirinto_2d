@@ -34,7 +34,7 @@ public class player_controller : MonoBehaviour
 
     public GameObject audio_coletavel;
     public GameObject enemy_destroy;
-    public GameObject audio_ataque;
+     public GameObject audio_ataque;
 
     void Start()
     {
@@ -43,7 +43,12 @@ public class player_controller : MonoBehaviour
         key = 0;
         candle = 0;
         time = 200;
-        attackCollider.enabled = false;  // Collider desativado no início
+        //attackCollider.enabled = false;  // Collider desativado no início
+
+        // Salva o índice da fase atual no PlayerPrefs
+        int levelIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("CurrentLevel", levelIndex);
+        PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
     }
 
     // Update is called once per frame
@@ -65,23 +70,23 @@ public class player_controller : MonoBehaviour
             countdown = 1f;
         }
 
-        if (time == 0)
+        if (time <= 0)
         {
-            SceneManager.LoadSceneAsync(1);
+            SceneManager.LoadSceneAsync(5);
         }
 
         // Verificar se o jogador atacou (tecla Enter ou botão esquerdo do mouse)
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) // 0 é o botão esquerdo do mouse
-        {
-            anime_attack.SetTrigger("attack"); // Ativa o Trigger "Attack" no Animator
-            attackCollider.enabled = true; // Ativa o Collider durante o ataque
-            GameObject prefab = Instantiate(audio_ataque, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
-            Destroy(prefab.gameObject, 1f);
-        }
-        else
-        {
-            attackCollider.enabled = false; // Desativa o Collider quando o ataque terminar
-        }
+        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0)) // 0 é o botão esquerdo do mouse
+        //{
+        //    anime_attack.SetTrigger("attack"); // Ativa o Trigger "Attack" no Animator
+        //    attackCollider.enabled = true; // Ativa o Collider durante o ataque
+        //    GameObject prefab = Instantiate(audio_ataque, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
+       //     Destroy(prefab.gameObject, 1f);
+       // }
+       // else
+       // {
+        //    attackCollider.enabled = false; // Desativa o Collider quando o ataque terminar
+       // }
     }
 
     void FixedUpdate()
@@ -123,7 +128,7 @@ public class player_controller : MonoBehaviour
         // Verifica se a porta pode ser destrancada (condição completa)
         if (other.gameObject.CompareTag("door1") && findKey && findCandle)
         {
-            SceneManager.LoadSceneAsync(1); // Carrega a cena nova
+            SceneManager.LoadSceneAsync(2); // Carrega a cena nova
         }
     }
 
@@ -131,26 +136,26 @@ public class player_controller : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("enemy"))
         {
-            if (attackCollider.enabled) // O inimigo colide com o Collider de ataque
-            {
-                GameObject prefab = Instantiate(enemy_destroy, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
-                Destroy(prefab.gameObject, 2f);
-                time += 20;
-                
+            //if (attackCollider.enabled) // O inimigo colide com o Collider de ataque
+            //{
+            //    GameObject prefab = Instantiate(enemy_destroy, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z), Quaternion.identity);
+            //    Destroy(prefab.gameObject, 2f);
+            ///    time += 20;
 
-                collision.gameObject.SetActive(false);
 
-            }
-            else
-            {
+            //    collision.gameObject.SetActive(false);
+
+            // }
+            //else
+            //{
                 // Jogador sofre dano (perde 10 segundos)
-                time -= 10;
-                if (time <= 0)
-                {
-                    time = 0;
-                    SceneManager.LoadSceneAsync(1); // Se o tempo acabar, recarrega a cena
-                }
-            }
+                time -= 5;
+               // if (time <= 0)
+               // {
+               //     time = 0;
+               //     SceneManager.LoadSceneAsync(5); // Se o tempo acabar, chama a cena de game over
+               // }
+           // }
         }
     }
 

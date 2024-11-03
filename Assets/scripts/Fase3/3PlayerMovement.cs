@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private int countKeys;
     private GameObject door;
+    
 
     void Start()
     {
@@ -22,6 +24,11 @@ public class PlayerMovement : MonoBehaviour
         door = GameObject.FindWithTag("Door");
 
         winText.gameObject.SetActive(false);
+
+        // Salva o índice da fase atual no PlayerPrefs
+        int levelIndex = SceneManager.GetActiveScene().buildIndex;
+        PlayerPrefs.SetInt("CurrentLevel", levelIndex);
+        PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
     }
 
     void Update()
