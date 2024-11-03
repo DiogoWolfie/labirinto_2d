@@ -10,7 +10,7 @@ public class SquareSpawner : MonoBehaviour
         new Vector2(60, 8),  // Posição 1
         new Vector2(80, -8),  // Posição 2
         new Vector2(-20, 12),  // Posição 3
-        new Vector2(90, -5),  // Posição 4
+        new Vector2(90, 12),  // Posição 4
         new Vector2(90, 5),  // Posição 5
     };
 
