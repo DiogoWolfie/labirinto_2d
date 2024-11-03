@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
     void WinGame()
     {
-        winText.gameObject.SetActive(true);
+        SceneManager.LoadSceneAsync(5);
         gameLost = true;
     }
 

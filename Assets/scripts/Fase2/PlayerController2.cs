@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         UpdateKeyText();
         UpdateTimerText();
 
-        // Salva o índice da fase atual no PlayerPrefs
+        // Salva o ï¿½ndice da fase atual no PlayerPrefs
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
         PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
@@ -88,13 +88,13 @@ public class PlayerController : MonoBehaviour
         isTransitioning = true;
         portaAudio.Play();
         yield return new WaitForSeconds(portaAudio.clip.length);
-        SceneManager.LoadSceneAsync(4);
+        SceneManager.LoadSceneAsync(3);
     }
 
     IEnumerator LoadNextScene()
     {
         isTransitioning = true;
-        SceneManager.LoadSceneAsync(4);
+        SceneManager.LoadSceneAsync(3);
         yield return null;
     }
 
