@@ -88,13 +88,13 @@ public class PlayerController : MonoBehaviour
         isTransitioning = true;
         portaAudio.Play();
         yield return new WaitForSeconds(portaAudio.clip.length);
-        SceneManager.LoadSceneAsync(3);
+        SceneManager.LoadSceneAsync(4);
     }
 
     IEnumerator LoadNextScene()
     {
         isTransitioning = true;
-        SceneManager.LoadSceneAsync(3);
+        SceneManager.LoadSceneAsync(4);
         yield return null;
     }
 
