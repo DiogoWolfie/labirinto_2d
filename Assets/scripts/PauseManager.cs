@@ -41,7 +41,15 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
     }
 
-    private void Pause()
+    public void TogglePause()
+    {
+        if (isPaused)
+            Resume();
+        else
+            Pause();
+    }
+
+    public void Pause()
     {
         pauseMenuUI.SetActive(true); // Exibe o menu de pausa
         Time.timeScale = 0f; // Congela o jogo
@@ -52,6 +60,7 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1f; // Certifique-se de descongelar o jogo antes de mudar de cena
         // Adicione a linha para carregar o menu principal, por exemplo:
+        Destroy(gameObject);
         SceneManager.LoadScene("Menu");
     }
 }
