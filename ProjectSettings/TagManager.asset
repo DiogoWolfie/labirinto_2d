@@ -10,6 +10,10 @@ TagManager:
   - enemy
   - chaves
   - porta2
+  - BordaSuperior
+  - BordaInferior
+  - BordaEsquerda
+  - BordaDireita
   layers:
   - Default
   - TransparentFX
