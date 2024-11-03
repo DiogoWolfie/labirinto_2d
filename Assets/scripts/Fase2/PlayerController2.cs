@@ -112,6 +112,6 @@ public class PlayerController : MonoBehaviour
 
     void GameOver()
     {
-        SceneManager.LoadScene(2); // Carrega a cena de game over
+        SceneManager.LoadScene(3); // Carrega a cena de game over
     }
 }
