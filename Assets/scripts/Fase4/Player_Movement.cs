@@ -11,12 +11,16 @@ public class Player_Movement : MonoBehaviour
     public int maxGhosts = 1;
     Vector2 movement;
     private int ghostCount = 0; // Contador de fantasmas ao redor do jogador
+    public GameObject cutsceneCanvas;
     // Update is called once per frame
     void Start()
     {
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
         PlayerPrefs.Save();
+        Time.timeScale = 0f; // Pausa o jogo
+        cutsceneCanvas.SetActive(true); // Ativa o Canvas
+
     }
     void Update()
     {
@@ -52,5 +56,10 @@ public class Player_Movement : MonoBehaviour
     {
         Debug.Log("Game Over! Carregando cena de fim de jogo...");
         SceneManager.LoadScene("GameOver"); // Certifique-se de que a cena "EndGame" está incluída nas cenas do projeto
+    }
+    public void EndCutscene()
+    {
+        cutsceneCanvas.SetActive(false); // Esconde o Canvas
+        Time.timeScale = 1f; // Retoma o jogo
     }
 }

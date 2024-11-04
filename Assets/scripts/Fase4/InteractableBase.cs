@@ -5,6 +5,8 @@ public abstract class InteractableBase : MonoBehaviour
     private bool isPlayerInRange = false;
     public bool isActivated = false;
     public InteractionManager interactionManager;
+    public GameObject UI;
+    public EnemySpawner enemySpawner;
 
     void Update()
     {
@@ -19,7 +21,10 @@ public abstract class InteractableBase : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            Debug.Log("Pressione E para interagir.");
+            if (UI != null && !isActivated)
+            {
+                UI.SetActive(true);
+            }
         }
     }
 
@@ -29,6 +34,10 @@ public abstract class InteractableBase : MonoBehaviour
         {
             isPlayerInRange = false;
             Debug.Log("Saiu da área de interação.");
+            if (UI != null)
+            {
+                UI.SetActive(false);
+            }
         }
     }
 

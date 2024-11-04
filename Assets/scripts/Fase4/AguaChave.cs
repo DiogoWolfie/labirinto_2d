@@ -7,7 +7,9 @@ public class AguaChave : InteractableBase
     public Sprite newSprite; // Sprite que será exibida quando a porta for ativada
     private SpriteRenderer spriteRenderer;
     public AudioClip getWater; // Som de abertura da porta
+
     private AudioSource audioSource;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -21,5 +23,11 @@ public class AguaChave : InteractableBase
             spriteRenderer.sprite = newSprite;
             audioSource.PlayOneShot(getWater);
         }
+
+        for (int i = 0; i < enemySpawner.enemyCount; i++)
+        {
+            enemySpawner.nSpawnEnemy();
+        }
+
     }
 }

@@ -18,5 +18,9 @@ public class FireKey : InteractableBase
     {
         spriteRenderer.enabled = false;
         audioSource.PlayOneShot(getFire);
+        for (int i = 0; i < enemySpawner.enemyCount; i++)
+        {
+            enemySpawner.nSpawnEnemy();
+        }
     }
 }
