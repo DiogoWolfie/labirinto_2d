@@ -287,8 +287,8 @@ MonoBehaviour:
     a subir ao s\xF3t\xE3o da casa mal-assombrada da regi\xE3o: a Mans\xE3o Black.
     \t"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
+  m_sharedMaterial: {fileID: -4396284786328144936, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1085,8 +1085,8 @@ MonoBehaviour:
   m_text: '          Infelizmente, ao chegar no seu destino, ele percebeu que todas
     as portas haviam, assombrosamente, sido trancadas.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
+  m_sharedMaterial: {fileID: -4396284786328144936, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1116,7 +1116,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1354,8 +1354,8 @@ MonoBehaviour:
   m_text: "          Agora, voc\xEA deve ajudar Bruno a descobrir como sair dessa
     mans\xE3o, antes que as almas das crian\xE7as que pereceram desafiadas o encontre."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
+  m_sharedMaterial: {fileID: -4396284786328144936, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535

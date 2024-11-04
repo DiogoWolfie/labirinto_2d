@@ -12,7 +12,7 @@ public class InteractionManager : MonoBehaviour
     public GameObject door1; // Referência ao objeto da porta
     public AudioClip openDoorSound; // Som de abertura da porta
 
-    private bool conditionMet = false;
+    public bool conditionMet = false;
     private AudioSource audioSource;
     private SpriteRenderer doorSpriteRenderer;
     private SpriteRenderer door1SpriteRenderer;

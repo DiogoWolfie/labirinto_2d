@@ -224,7 +224,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -70}
+  m_AnchoredPosition: {x: 80, y: -90}
   m_SizeDelta: {x: 140, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150046283
@@ -249,8 +249,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Time
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
+  m_sharedMaterial: {fileID: -4396284786328144936, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8152,14 +8152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a26155b6433324d9ced416c02dbc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  moveSpeed: 10
   rb: {fileID: 1430407528}
   animator: {fileID: 1430407529}
   chaveText: {fileID: 1755748574}
   timerText: {fileID: 150046283}
   chaveAudio: {fileID: 1873107408}
   portaAudio: {fileID: 653512240}
-  totalTime: 60
+  totalTime: 80
 --- !u!50 &1430407528
 Rigidbody2D:
   serializedVersion: 4
@@ -18489,7 +18489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -40}
+  m_AnchoredPosition: {x: 80, y: -52}
   m_SizeDelta: {x: 140, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755748574
@@ -18514,8 +18514,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Chave 0/1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
+  m_sharedMaterial: {fileID: -4396284786328144936, guid: 05868fd1e045eec46b9146ef4172e8ef, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
