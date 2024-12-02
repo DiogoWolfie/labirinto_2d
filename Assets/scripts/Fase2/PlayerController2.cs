@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
 
     private float targetX = 75.49525f;
 
+    // Adicionando referência ao joystick
+    public FloatingJoystick joystick; // Referência ao Floating Joystick
+
+
     void Start()
     {
         remainingTime = totalTime; // Inicializa o tempo restante com o tempo total
@@ -36,8 +40,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        // Obtém input do joystick ou do teclado (fallback)
+        movement.x = joystick.Horizontal != 0 ? joystick.Horizontal : Input.GetAxisRaw("Horizontal");
+        movement.y = joystick.Vertical != 0 ? joystick.Vertical : Input.GetAxisRaw("Vertical");
 
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);

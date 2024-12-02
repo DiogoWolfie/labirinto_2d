@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Adicionando referência ao joystick
+    public FloatingJoystick joystick; // Referência ao Floating Joystick
+
     public float speed = 5f;
     private Rigidbody2D rb;
     public TextMeshProUGUI countKeysText;
@@ -19,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float timeRemaining = 180f; // 3 minutos em segundos
     private bool gameLost = false;
+
+    
 
     private void Awake()
     {
@@ -46,8 +51,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!gameLost)
         {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
+            // Obtém input do joystick ou do teclado (fallback)
+            movement.x = joystick.Horizontal != 0 ? joystick.Horizontal : Input.GetAxisRaw("Horizontal");
+            movement.y = joystick.Vertical != 0 ? joystick.Vertical : Input.GetAxisRaw("Vertical");
 
             animator.SetFloat("Horizontal", movement.x);
             animator.SetFloat("Vertical", movement.y);
@@ -118,6 +124,6 @@ public class PlayerMovement : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
-        timerText.text = $"{minutes:00}:{seconds:00}";
+        timerText.text = "Time: " + $"{minutes:00}:{seconds:00}";
     }
 }
