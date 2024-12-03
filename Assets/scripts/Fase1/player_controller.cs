@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using TMPro;
 using System.Diagnostics;
+using UnityEngine.Advertisements; // Para Unity Ads
 
 public class player_controller : MonoBehaviour
 {
@@ -44,6 +45,9 @@ public class player_controller : MonoBehaviour
     private bool isPopupActive = false;
     private float popupTimer = 4f; // Define o tempo para o popup desaparecer
 
+    // Adicionando Unity Ads
+    [SerializeField] private string interstitialAdUnitId = "Interstitial_Android"; // Seu Placement ID
+
     void Start()
     {
         findCandle = false;
@@ -82,7 +86,7 @@ public class player_controller : MonoBehaviour
 
         if (time <= 0)
         {
-            SceneManager.LoadSceneAsync(6);
+            ShowAdAndLoadNextScene(6);
         }
 
         if (isPopupActive)
@@ -132,8 +136,8 @@ public class player_controller : MonoBehaviour
         }
 
         if (other.gameObject.CompareTag("door1") && findKey && findCandle)
-        { 
-            SceneManager.LoadSceneAsync(3);
+        {
+            ShowAdAndLoadNextScene(3);
         }
     }
 
@@ -157,6 +161,27 @@ public class player_controller : MonoBehaviour
         if (findKey && findCandle)
         {
             door1.GetComponent<TilemapCollider2D>().isTrigger = true;
+        }
+    }
+
+    // Método para exibir o anúncio antes de carregar a próxima fase
+    private void ShowAdAndLoadNextScene(int nextSceneIndex)
+    {
+        if (Advertisement.IsReady(interstitialAdUnitId))
+        {
+            Advertisement.Show(interstitialAdUnitId, new ShowOptions
+            {
+                resultCallback = (result) =>
+                {
+                    // Carrega a próxima cena após o anúncio
+                    SceneManager.LoadSceneAsync(nextSceneIndex);
+                }
+            });
+        }
+        else
+        {
+            // Caso o anúncio não esteja pronto, carregue a cena diretamente
+            SceneManager.LoadSceneAsync(nextSceneIndex);
         }
     }
 }
