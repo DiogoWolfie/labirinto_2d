@@ -4,13 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using TMPro;
-using System.Diagnostics;
 using UnityEngine.Advertisements; // Para Unity Ads
+using System.Diagnostics;
 
-public class player_controller : MonoBehaviour
+public class player_controller : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
 {
-
-    // Adicionando referência ao joystick
     public FloatingJoystick joystick; // Referência ao Floating Joystick
 
     public float moveSpeed = 4f;
@@ -46,9 +44,13 @@ public class player_controller : MonoBehaviour
     private float popupTimer = 4f; // Define o tempo para o popup desaparecer
 
     // Adicionando Unity Ads
+    [SerializeField] private string gameId = "YOUR_GAME_ID"; // Substitua pelo seu Game ID
     [SerializeField] private string interstitialAdUnitId = "Interstitial_Android"; // Seu Placement ID
+    [SerializeField] private bool testMode = true;
 
-    void Start()
+    private int nextSceneIndex; // Armazena o índice da próxima cena
+
+    private void Start()
     {
         findCandle = false;
         findKey = false;
@@ -57,16 +59,16 @@ public class player_controller : MonoBehaviour
         time = 200;
 
         ShowPopup();
-        //popup.SetActive(false); 
 
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
         PlayerPrefs.Save();
+
+        Advertisement.Initialize(gameId, testMode, this); // Inicializa o Unity Ads
     }
 
     void Update()
     {
-        // Obtém input do joystick ou do teclado (fallback)
         movement.x = joystick.Horizontal != 0 ? joystick.Horizontal : Input.GetAxisRaw("Horizontal");
         movement.y = joystick.Vertical != 0 ? joystick.Vertical : Input.GetAxisRaw("Vertical");
 
@@ -96,7 +98,6 @@ public class player_controller : MonoBehaviour
             {
                 popup.SetActive(false); // Oculta o popup após o tempo
                 isPopupActive = false;  // Reseta a condição
-                
             }
         }
     }
@@ -117,22 +118,28 @@ public class player_controller : MonoBehaviour
     {
         if (other.gameObject.CompareTag("vela"))
         {
-            GameObject prefab = Instantiate(audio_coletavel, transform.position, Quaternion.identity);
-            Destroy(prefab.gameObject, 1f);
+            
 
             other.gameObject.SetActive(false);
             findCandle = true;
             candle++;
+
+            GameObject prefab = Instantiate(audio_coletavel, transform.position, Quaternion.identity);
+            Destroy(prefab.gameObject, 1f);
         }
 
         if (other.gameObject.CompareTag("chave1"))
         {
-            GameObject prefab = Instantiate(audio_coletavel, transform.position, Quaternion.identity);
-            Destroy(prefab.gameObject, 1f);
-
+           
+           
+            //UnityEngine.Debug.Log("funciona porra");
             other.gameObject.SetActive(false);
             findKey = true;
             key++;
+
+            
+            GameObject prefab = Instantiate(audio_coletavel, transform.position, Quaternion.identity);
+            Destroy(prefab.gameObject, 1f);
         }
 
         if (other.gameObject.CompareTag("door1") && findKey && findCandle)
@@ -164,24 +171,50 @@ public class player_controller : MonoBehaviour
         }
     }
 
-    // Método para exibir o anúncio antes de carregar a próxima fase
     private void ShowAdAndLoadNextScene(int nextSceneIndex)
     {
-        if (Advertisement.IsReady(interstitialAdUnitId))
+        this.nextSceneIndex = nextSceneIndex; // Armazena o índice da próxima cena
+        Advertisement.Load(interstitialAdUnitId, this); // Carrega o anúncio
+
+        Advertisement.Show(interstitialAdUnitId, this); // Exibe o anúncio
+    }
+
+    // Implementação dos métodos de IUnityAdsInitializationListener
+    public void OnInitializationComplete()
+    {
+        UnityEngine.Debug.Log("Unity Ads initialization complete.");
+    }
+
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+        UnityEngine.Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+    }
+
+    // Implementação dos métodos de IUnityAdsLoadListener
+    public void OnUnityAdsAdLoaded(string adUnitId)
+    {
+        UnityEngine.Debug.Log($"Ad Loaded: {adUnitId}");
+    }
+
+    public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
+    {
+        UnityEngine.Debug.Log($"Error loading Ad Unit {adUnitId}: {error.ToString()} - {message}");
+    }
+
+    // Implementação dos métodos de IUnityAdsShowListener
+    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
+    {
+        if (adUnitId == interstitialAdUnitId && showCompletionState == UnityAdsShowCompletionState.COMPLETED)
         {
-            Advertisement.Show(interstitialAdUnitId, new ShowOptions
-            {
-                resultCallback = (result) =>
-                {
-                    // Carrega a próxima cena após o anúncio
-                    SceneManager.LoadSceneAsync(nextSceneIndex);
-                }
-            });
-        }
-        else
-        {
-            // Caso o anúncio não esteja pronto, carregue a cena diretamente
-            SceneManager.LoadSceneAsync(nextSceneIndex);
+            SceneManager.LoadSceneAsync(nextSceneIndex); // Carrega a próxima cena após o anúncio
         }
     }
+
+    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
+    {
+        UnityEngine.Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
+    }
+
+    public void OnUnityAdsShowStart(string adUnitId) { }
+    public void OnUnityAdsShowClick(string adUnitId) { }
 }

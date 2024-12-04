@@ -943,11 +943,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315629356}
   m_CullTransparentMesh: 1
---- !u!1 &318019994 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 481018014728613420, guid: 90bfca26a145b2e478eb83785cf5115c, type: 3}
-  m_PrefabInstance: {fileID: 2412657420352335752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &367343070
 GameObject:
   m_ObjectHideFlags: 0
@@ -37307,10 +37302,13 @@ MonoBehaviour:
   countTime: {fileID: 315629358}
   getKey: {fileID: 957683523}
   getCandle: {fileID: 814498028}
-  audio_coletavel: {fileID: 318019994}
-  enemy_destroy: {fileID: 4988228383740710154}
-  audio_ataque: {fileID: 989736609}
+  audio_coletavel: {fileID: 0}
+  enemy_destroy: {fileID: 0}
+  audio_ataque: {fileID: 0}
   popup: {fileID: 2072089562}
+  gameId: Interstitial_Android
+  interstitialAdUnitId: Interstitial_Android
+  testMode: 1
 --- !u!1839735485 &1752606372
 Tilemap:
   m_ObjectHideFlags: 0
@@ -38403,6 +38401,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6118888271279202354, guid: ce10b2f0ca0fcf544a12aa0ae7278138, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7474727309880567266, guid: ce10b2f0ca0fcf544a12aa0ae7278138, type: 3}
       propertyPath: m_Name
       value: enemy
@@ -38489,11 +38491,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e780503d671ac8144bdad86144ba803d, type: 3}
---- !u!1 &4988228383740710154 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4994126031658136548, guid: e780503d671ac8144bdad86144ba803d, type: 3}
-  m_PrefabInstance: {fileID: 4988228383740710153}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
