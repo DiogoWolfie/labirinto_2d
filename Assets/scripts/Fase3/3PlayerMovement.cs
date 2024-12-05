@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements; // Para Unity Ads
+using System.Diagnostics;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     // Adicionando referência ao joystick
     public FloatingJoystick joystick; // Referência ao Floating Joystick
@@ -23,7 +25,14 @@ public class PlayerMovement : MonoBehaviour
     private float timeRemaining = 180f; // 3 minutos em segundos
     private bool gameLost = false;
 
-    
+    // Adicionando Unity Ads
+    [SerializeField] private string gameId = "YOUR_GAME_ID"; // Substitua pelo seu Game ID
+    [SerializeField] private string interstitialAdUnitId = "Interstitial_Android"; // Seu Placement ID
+    [SerializeField] private bool testMode = true;
+
+    private int nextSceneIndex; // Armazena o índice da próxima cena
+
+
 
     private void Awake()
     {
@@ -45,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
         int levelIndex = SceneManager.GetActiveScene().buildIndex;
         PlayerPrefs.SetInt("CurrentLevel", levelIndex);
         PlayerPrefs.Save(); // Garante que o valor seja salvo imediatamente
+
+        Advertisement.Initialize(gameId, testMode, this); // Inicializa o Unity Ads
     }
 
     void Update()
@@ -111,13 +122,13 @@ public class PlayerMovement : MonoBehaviour
 
     void WinGame()
     {
-        SceneManager.LoadSceneAsync(5);
+        ShowAdAndLoadNextScene(5);
         gameLost = true;
     }
 
     void GameOver()
     {
-        SceneManager.LoadScene(6); // Carrega a cena de game over
+        ShowAdAndLoadNextScene(6); // Carrega a cena de game over
     }
 
     void UpdateTimerText()
@@ -126,4 +137,62 @@ public class PlayerMovement : MonoBehaviour
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
         timerText.text = "Time: " + $"{minutes:00}:{seconds:00}";
     }
+
+    private void ShowAdAndLoadNextScene(int sceneIndex)
+    {
+        nextSceneIndex = sceneIndex; // Salva a próxima cena no índice
+        Advertisement.Load(interstitialAdUnitId, this); // Carrega o anúncio
+    }
+
+    // Implementação dos métodos de IUnityAdsInitializationListener
+    public void OnInitializationComplete()
+    {
+        UnityEngine.Debug.Log("Unity Ads initialization complete.");
+    }
+
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+        UnityEngine.Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+    }
+
+    // Implementação dos métodos de IUnityAdsLoadListener
+    public void OnUnityAdsAdLoaded(string adUnitId)
+    {
+        if (adUnitId == interstitialAdUnitId)
+        {
+            UnityEngine.Debug.Log("Ad Loaded. Showing ad.");
+            Advertisement.Show(adUnitId, this);
+        }
+    }
+
+    public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
+    {
+        UnityEngine.Debug.Log($"Error loading Ad Unit {adUnitId}: {error.ToString()} - {message}");
+    }
+
+    // Implementação dos métodos de IUnityAdsShowListener
+    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
+    {
+        if (adUnitId == interstitialAdUnitId)
+        {
+            if (showCompletionState == UnityAdsShowCompletionState.COMPLETED)
+            {
+                UnityEngine.Debug.Log($"Ad completed. Loading next scene: {nextSceneIndex}");
+                SceneManager.LoadSceneAsync(nextSceneIndex); // Carrega a cena correta
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning($"Ad not completed. Skipping to next scene: {nextSceneIndex}");
+                SceneManager.LoadSceneAsync(nextSceneIndex); // Ainda carrega a cena
+            }
+        }
+    }
+
+    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
+    {
+        UnityEngine.Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
+    }
+
+    public void OnUnityAdsShowStart(string adUnitId) { }
+    public void OnUnityAdsShowClick(string adUnitId) { }
 }

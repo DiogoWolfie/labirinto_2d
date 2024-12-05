@@ -171,12 +171,10 @@ public class player_controller : MonoBehaviour, IUnityAdsInitializationListener,
         }
     }
 
-    private void ShowAdAndLoadNextScene(int nextSceneIndex)
+    private void ShowAdAndLoadNextScene(int sceneIndex)
     {
-        this.nextSceneIndex = nextSceneIndex; // Armazena o índice da próxima cena
+        nextSceneIndex = sceneIndex; // Salva a próxima cena no índice
         Advertisement.Load(interstitialAdUnitId, this); // Carrega o anúncio
-
-        Advertisement.Show(interstitialAdUnitId, this); // Exibe o anúncio
     }
 
     // Implementação dos métodos de IUnityAdsInitializationListener
@@ -193,7 +191,11 @@ public class player_controller : MonoBehaviour, IUnityAdsInitializationListener,
     // Implementação dos métodos de IUnityAdsLoadListener
     public void OnUnityAdsAdLoaded(string adUnitId)
     {
-        UnityEngine.Debug.Log($"Ad Loaded: {adUnitId}");
+        if (adUnitId == interstitialAdUnitId)
+        {
+            UnityEngine.Debug.Log("Ad Loaded. Showing ad.");
+            Advertisement.Show(adUnitId, this);
+        }
     }
 
     public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
@@ -204,9 +206,18 @@ public class player_controller : MonoBehaviour, IUnityAdsInitializationListener,
     // Implementação dos métodos de IUnityAdsShowListener
     public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
     {
-        if (adUnitId == interstitialAdUnitId && showCompletionState == UnityAdsShowCompletionState.COMPLETED)
+        if (adUnitId == interstitialAdUnitId)
         {
-            SceneManager.LoadSceneAsync(nextSceneIndex); // Carrega a próxima cena após o anúncio
+            if (showCompletionState == UnityAdsShowCompletionState.COMPLETED)
+            {
+                UnityEngine.Debug.Log($"Ad completed. Loading next scene: {nextSceneIndex}");
+                SceneManager.LoadSceneAsync(nextSceneIndex); // Carrega a cena correta
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning($"Ad not completed. Skipping to next scene: {nextSceneIndex}");
+                SceneManager.LoadSceneAsync(nextSceneIndex); // Ainda carrega a cena
+            }
         }
     }
 
