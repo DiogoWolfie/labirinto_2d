@@ -8,13 +8,6 @@ public abstract class InteractableBase : MonoBehaviour
     public GameObject UI;
     public EnemySpawner enemySpawner;
 
-    void Update()
-    {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
-        {
-            Interact();
-        }
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
