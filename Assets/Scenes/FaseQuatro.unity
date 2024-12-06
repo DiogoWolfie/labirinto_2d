@@ -7299,6 +7299,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionManager: {fileID: 1964056199}
   winning: {fileID: 8300000, guid: 974d6205c875fbf4d9dd75f3f9b878aa, type: 3}
+  gameId: Interstitial_Android
+  interstitialAdUnitId: Interstitial_Android
+  testMode: 1
 --- !u!1 &585435717
 GameObject:
   m_ObjectHideFlags: 0
@@ -7711,6 +7714,9 @@ MonoBehaviour:
   maxGhosts: 3
   cutsceneCanvas: {fileID: 1427750050}
   joystick: {fileID: 1906829258}
+  gameId: Interstitial_Android
+  interstitialAdUnitId: Interstitial_Android
+  testMode: 1
 --- !u!50 &766519046
 Rigidbody2D:
   serializedVersion: 4
@@ -8158,7 +8164,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 0.4772714
+  orthographic size: 0.65026754
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8609,8 +8615,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281085005
-  m_fontColor: {r: 0.3019608, g: 0.17254902, b: 0.17254902, a: 1}
+    rgba: 4280032477
+  m_fontColor: {r: 0.8679245, g: 0.11053756, b: 0.11053756, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -13016,6 +13022,68 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &1844946804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1844946807}
+  - component: {fileID: 1844946806}
+  - component: {fileID: 1844946805}
+  m_Layer: 0
+  m_Name: Ads
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1844946805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844946804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe3ad02c42635bf4980f4f5b2c3c3140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _androidAdUnitId: Interstitial_Android
+  _iOsAdUnitId: Interstitial_iOS
+--- !u!114 &1844946806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844946804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f37dbf03df6bc47a917fca714fa52d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _androidGameId: 5741877
+  _iOSGameId: 5741876
+  _testMode: 1
+--- !u!4 &1844946807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844946804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.6873961, y: -1.1213381, z: 0.0009545502}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1884340996
 GameObject:
   m_ObjectHideFlags: 0
@@ -13416,3 +13484,4 @@ SceneRoots:
   - {fileID: 1884341000}
   - {fileID: 799597197}
   - {fileID: 1427750054}
+  - {fileID: 1844946807}
